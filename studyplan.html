@@ -532,8 +532,9 @@
                     Stay on top of lectures, assignments, revision goals, and personal wellbeing with a weekly plan designed for a motivated university student.
                 </p>
                 <div class="hero-actions">
-                    <button class="btn primary">Review this week</button>
-                    <button class="btn secondary">Set new goals</button>
+                    <button class="btn primary" id="review-week" type="button">Review this week</button>
+                    <button class="btn secondary" id="set-goals" type="button">Set new goals</button>
+                    <button class="btn secondary" id="return-button" type="button">Return</button>
                 </div>
             </div>
 
@@ -593,7 +594,7 @@
 
         <div class="content-grid">
             <div>
-                <section class="panel section">
+                <section class="panel section" id="timetable-section">
                     <div class="section-header">
                         <h2>Weekly timetable</h2>
                         <span class="badge">Week 7</span>
@@ -640,7 +641,7 @@
             </div>
 
             <div>
-                <section class="panel section">
+                <section class="panel section" id="goals-section">
                     <div class="section-header">
                         <h2>Priority tasks</h2>
                         <span class="badge">4 due</span>
@@ -820,6 +821,27 @@
             document.getElementById("reset-plan").addEventListener("click", function () {
                 localStorage.removeItem(storageKey);
                 window.location.reload();
+            });
+
+            document.getElementById("review-week").addEventListener("click", function () {
+                document.getElementById("timetable-section").scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+
+            document.getElementById("set-goals").addEventListener("click", function () {
+                const goalsSection = document.getElementById("goals-section");
+                goalsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                window.setTimeout(function () {
+                    const firstGoal = goalsSection.querySelector("[contenteditable='true']");
+                    if (firstGoal) firstGoal.focus();
+                }, 500);
+            });
+
+            document.getElementById("return-button").addEventListener("click", function () {
+                if (document.referrer && window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
             });
         }());
     </script>
