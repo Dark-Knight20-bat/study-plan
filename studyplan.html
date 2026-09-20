@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Study Plan</title>
+    <style>
+        :root {
+            --bg: #f4f7fb;
+            --panel: #ffffff;
+            --panel-strong: #edf3ff;
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --accent: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #dfe7f3;
+            --shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 18%, #f8fafc 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 20px 50px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .semester-tag {
+            background: #e0ecff;
+            color: var(--primary-dark);
+            border: 1px solid #cfe0ff;
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-main {
+            padding: 30px;
+            background: linear-gradient(135deg, #e0edff 0%, #ffffff 100%);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #dfeaff;
+            color: var(--primary-dark);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 18px 0 12px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.1;
+        }
+
+        .subtext {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1.02rem;
+            line-height: 1.6;
+            max-width: 560px;
+        }
+
+        .hero-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.28);
+        }
+
+        .btn.secondary {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .hero-side {
+            padding: 26px 24px;
+            background: linear-gradient(180deg, #fff 0%, #eef7ff 100%);
+        }
+
+        .mini-card {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: white;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .mini-card:last-child { margin-bottom: 0; }
+
+        .label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+        }
+
+        .value {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .stat-card {
+            padding: 20px 18px;
+        }
+
+        .stat-card .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .stat-card .icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 1.7rem;
+            margin-bottom: 6px;
+        }
+
+        .stat-card small {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .blue .icon { background: #dfeeff; color: var(--primary); }
+        .green .icon { background: #dcfce7; color: var(--accent); }
+        .amber .icon { background: #fff1d6; color: var(--warning); }
+        .pink .icon { background: #ffe4ea; color: #ec4899; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 0.9fr;
+            gap: 20px;
+        }
+
+        .section {
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .badge {
+            background: #edf3ff;
+            color: var(--primary-dark);
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            border: 1px solid #dfeaff;
+        }
+
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(90px, 1fr));
+            gap: 10px;
+        }
+
+        .day {
+            background: #f8fbff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 10px;
+            min-height: 148px;
+        }
+
+        .day-name {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            margin-bottom: 12px;
+        }
+
+        .session {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 8px;
+            margin-bottom: 8px;
+            font-size: 0.72rem;
+            line-height: 1.45;
+        }
+
+        .session strong { display: block; }
+
+        .blue-tag { background: #dfeeff; color: var(--primary-dark); }
+        .green-tag { background: #dcfce7; color: #15803d; }
+        .amber-tag { background: #fff1d6; color: #b45309; }
+        .purple-tag { background: #f1e8ff; color: #7c3aed; }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .task-item {
+            display: grid;
+            grid-template-columns: 10px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            background: #f8fbff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 14px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .dot.orange { background: var(--warning); }
+        .dot.green { background: var(--accent); }
+        .dot.red { background: var(--danger); }
+
+        .task-item h3 {
+            font-size: 0.98rem;
+            margin: 0 0 4px;
+        }
+
+        .task-item p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .due {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: #e8f1ff;
+            border-radius: 999px;
+            padding: 6px 8px;
+            white-space: nowrap;
+        }
+
+        .progress-list {
+            display: grid;
+            gap: 18px;
+            margin-top: 4px;
+        }
+
+        .progress-item .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #edf2f7;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar > span {
+            display: block;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--primary), #60a5fa);
+        }
+
+        .progress-bar .green { background: linear-gradient(90deg, #16a34a, #4ade80); }
+        .progress-bar .amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            background: #f8fbff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-weight: 600;
+        }
+
+        .checkmark {
+            width: 22px;
+            height: 22px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--muted);
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .customizer {
+            padding: 18px 20px;
+            margin-bottom: 24px;
+        }
+
+        .customizer summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .customizer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .control {
+            display: grid;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .control input, .control select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 9px 10px;
+            font: inherit;
+            color: var(--text);
+            background: white;
+        }
+
+        .customizer-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn.small { padding: 9px 14px; font-size: 0.82rem; }
+        .save-status { color: var(--muted); font-size: 0.8rem; }
+
+        [contenteditable="true"] {
+            outline: 2px dashed transparent;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        [contenteditable="true"]:focus {
+            outline-color: var(--primary);
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .edit-hint {
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 980px) {
+            .hero, .content-grid { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 640px) {
+            .topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .stats { grid-template-columns: 1fr; }
+            .week-grid { grid-template-columns: 1fr 1fr; }
+            .task-item { grid-template-columns: 10px 1fr; }
+            .due { grid-column: 2; justify-self: start; }
+            .customizer-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="topbar">
+            <div class="brand">
+                <div class="logo">S</div>
+                <span>StudyPlan Pro</span>
+            </div>
+            <div class="semester-tag" id="academic-period" data-editable>Fall Semester • 2026</div>
+        </header>
+
+        <details class="panel customizer">
+            <summary>Customize your study plan</summary>
+            <p class="edit-hint">Click any outlined text below to edit your schedule, tasks, goals, and progress. Your changes are saved automatically on this device.</p>
+            <div class="customizer-grid">
+                <label class="control">University system
+                    <select id="university-system">
+                        <option value="kenya">Kenyan university</option>
+                        <option value="international" selected>International university</option>
+                    </select>
+                </label>
+                <label class="control">GPA target <input id="gpa-input" type="text" inputmode="decimal" value="3.8"></label>
+                <label class="control">Weekly study hours <input id="hours-input" type="text" value="28/35h"></label>
+                <label class="control">Text size <select id="text-size-input"><option value="14px">Compact</option><option value="16px" selected>Comfortable</option><option value="18px">Large</option></select></label>
+                <label class="control">Accent color <input id="accent-input" type="color" value="#3b82f6"></label>
+            </div>
+            <p class="edit-hint" id="system-hint">International mode uses flexible semester, GPA, and deadline wording.</p>
+            <div class="customizer-actions">
+                <button class="btn primary small" id="reset-plan" type="button">Reset saved changes</button>
+                <span class="save-status" id="save-status" aria-live="polite">Saved automatically</span>
+            </div>
+        </details>
+
+        <section class="hero">
+            <div class="panel hero-main">
+                <span class="eyebrow">University Planner</span>
+                <h1>Build a smarter study routine.</h1>
+                <p class="subtext">
+                    Stay on top of lectures, assignments, revision goals, and personal wellbeing with a weekly plan designed for a motivated university student.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn primary">Review this week</button>
+                    <button class="btn secondary">Set new goals</button>
+                </div>
+            </div>
+
+            <aside class="panel hero-side">
+                <div class="mini-card">
+                    <span class="label" id="gpa-label">Current GPA target</span>
+                    <span class="value" id="gpa-value">3.8</span>
+                </div>
+                <div class="mini-card">
+                    <span class="label" id="hours-label">Study hours</span>
+                    <span class="value" id="hours-value">28/35h</span>
+                </div>
+                <div class="mini-card">
+                    <span class="label" id="deadline-label">Next deadline</span>
+                    <span class="value">Fri 3:00 PM</span>
+                </div>
+            </aside>
+        </section>
+
+        <section class="stats">
+            <div class="panel stat-card blue">
+                <div class="head">
+                    <span>Courses</span>
+                    <div class="icon">📚</div>
+                </div>
+                <strong>6</strong>
+                <small>Active modules</small>
+            </div>
+
+            <div class="panel stat-card green">
+                <div class="head">
+                    <span>Completed</span>
+                    <div class="icon">✅</div>
+                </div>
+                <strong>14</strong>
+                <small>Tasks finished</small>
+            </div>
+
+            <div class="panel stat-card amber">
+                <div class="head">
+                    <span>Focus time</span>
+                    <div class="icon">⏱️</div>
+                </div>
+                <strong id="focus-time-value">17h</strong>
+                <small>This week</small>
+            </div>
+
+            <div class="panel stat-card pink">
+                <div class="head">
+                    <span>Assignments</span>
+                    <div class="icon">📝</div>
+                </div>
+                <strong>4</strong>
+                <small>Due soon</small>
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <div>
+                <section class="panel section">
+                    <div class="section-header">
+                        <h2>Weekly timetable</h2>
+                        <span class="badge">Week 7</span>
+                    </div>
+
+                    <div class="week-grid">
+                        <div class="day">
+                            <div class="day-name" data-editable>Mon</div>
+                            <div class="session blue-tag"><strong data-editable>09:00</strong> <span data-editable>Calculus</span></div>
+                            <div class="session green-tag"><strong data-editable>14:00</strong> <span data-editable>Reading</span></div>
+                        </div>
+                        <div class="day">
+                            <div class="day-name" data-editable>Tue</div>
+                            <div class="session purple-tag"><strong data-editable>10:00</strong> <span data-editable>Lab</span></div>
+                            <div class="session amber-tag"><strong data-editable>16:00</strong> <span data-editable>Review</span></div>
+                        </div>
+                        <div class="day">
+                            <div class="day-name" data-editable>Wed</div>
+                            <div class="session blue-tag"><strong data-editable>08:30</strong> <span data-editable>Physics</span></div>
+                            <div class="session green-tag"><strong data-editable>18:00</strong> <span data-editable>Practice</span></div>
+                        </div>
+                        <div class="day">
+                            <div class="day-name" data-editable>Thu</div>
+                            <div class="session purple-tag"><strong data-editable>11:00</strong> <span data-editable>Seminar</span></div>
+                            <div class="session amber-tag"><strong data-editable>15:30</strong> <span data-editable>Notes</span></div>
+                        </div>
+                        <div class="day">
+                            <div class="day-name" data-editable>Fri</div>
+                            <div class="session blue-tag"><strong data-editable>09:00</strong> <span data-editable>Data Structures</span></div>
+                            <div class="session green-tag"><strong data-editable>13:00</strong> <span data-editable>Assignment</span></div>
+                        </div>
+                        <div class="day">
+                            <div class="day-name" data-editable>Sat</div>
+                            <div class="session amber-tag"><strong data-editable>10:00</strong> <span data-editable>Deep work</span></div>
+                            <div class="session green-tag"><strong data-editable>17:00</strong> <span data-editable>Exercise</span></div>
+                        </div>
+                        <div class="day">
+                            <div class="day-name" data-editable>Sun</div>
+                            <div class="session purple-tag"><strong data-editable>12:00</strong> <span data-editable>Revision</span></div>
+                            <div class="session blue-tag"><strong data-editable>18:00</strong> <span data-editable>Planning</span></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div>
+                <section class="panel section">
+                    <div class="section-header">
+                        <h2>Priority tasks</h2>
+                        <span class="badge">4 due</span>
+                    </div>
+
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <span class="dot red"></span>
+                            <div>
+                                <h3 data-editable>Statistics report</h3>
+                                <p data-editable>Data analysis and conclusion</p>
+                            </div>
+                            <span class="due" data-editable>Tue</span>
+                        </li>
+                        <li class="task-item">
+                            <span class="dot orange"></span>
+                            <div>
+                                <h3 data-editable>Physics worksheet</h3>
+                                <p data-editable>Complete 3 problem sets</p>
+                            </div>
+                            <span class="due" data-editable>Wed</span>
+                        </li>
+                        <li class="task-item">
+                            <span class="dot green"></span>
+                            <div>
+                                <h3 data-editable>Java coding lab</h3>
+                                <p data-editable>Implementation + debugging</p>
+                            </div>
+                            <span class="due" data-editable>Thu</span>
+                        </li>
+                        <li class="task-item">
+                            <span class="dot"></span>
+                            <div>
+                                <h3 data-editable>Essay outline</h3>
+                                <p data-editable>Research sources and thesis</p>
+                            </div>
+                            <span class="due" data-editable>Fri</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <section class="panel section">
+                <div class="section-header">
+                    <h2>Subject progress</h2>
+                    <span class="badge" id="grading-badge">4.0 GPA scale</span>
+                </div>
+
+                <div class="progress-list">
+                    <div class="progress-item">
+                        <div class="top"><span data-editable>Mathematics</span><span data-editable>82%</span></div>
+                        <div class="progress-bar"><span style="width:82%;"></span></div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="top"><span data-editable>Computer Science</span><span data-editable>74%</span></div>
+                        <div class="progress-bar"><span class="green" style="width:74%;"></span></div>
+                    </div>
+
+                    <div class="progress-item">
+                        <div class="top"><span data-editable>Physics</span><span data-editable>63%</span></div>
+                        <div class="progress-bar"><span class="amber" style="width:63%;"></span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel section">
+                <div class="section-header">
+                    <h2>Weekly goals</h2>
+                    <span class="badge">5/6</span>
+                </div>
+
+                <ul class="checklist">
+                    <li><span class="checkmark">✓</span> <span data-editable>Complete all lecture notes</span></li>
+                    <li><span class="checkmark">✓</span> <span data-editable>Finish one assignment draft</span></li>
+                    <li><span class="checkmark">✓</span> <span data-editable>Review 2 chapters of reading</span></li>
+                    <li><span class="checkmark">✓</span> <span data-editable>Attend study group session</span></li>
+                    <li><span class="checkmark">✓</span> <span data-editable>Sleep 8 hours nightly</span></li>
+                </ul>
+            </section>
+        </div>
+
+        <p class="footer-note">Keep your momentum strong — success comes from consistency, not perfection.</p>
+    </div>
+    <script>
+        (function () {
+            const storageKey = "studyPlanCustomization";
+            const editable = Array.from(document.querySelectorAll("[data-editable]"));
+            const gpaInput = document.getElementById("gpa-input");
+            const hoursInput = document.getElementById("hours-input");
+            const universitySystem = document.getElementById("university-system");
+            const textSizeInput = document.getElementById("text-size-input");
+            const accentInput = document.getElementById("accent-input");
+            const status = document.getElementById("save-status");
+            const gpaValue = document.getElementById("gpa-value");
+            const hoursValue = document.getElementById("hours-value");
+            const focusTimeValue = document.getElementById("focus-time-value");
+            const academicPeriod = document.getElementById("academic-period");
+            const systemHint = document.getElementById("system-hint");
+            const deadlineLabel = document.getElementById("deadline-label");
+            const gradingBadge = document.getElementById("grading-badge");
+
+            function save() {
+                const content = editable.map(function (element) { return element.innerHTML; });
+                const settings = {
+                    content: content,
+                    system: universitySystem.value,
+                    gpa: gpaInput.value,
+                    hours: hoursInput.value,
+                    textSize: textSizeInput.value,
+                    accent: accentInput.value
+                };
+                localStorage.setItem(storageKey, JSON.stringify(settings));
+                status.textContent = "Saved just now";
+                window.setTimeout(function () { status.textContent = "Saved automatically"; }, 1600);
+            }
+
+            function applyUniversitySystem() {
+                if (universitySystem.value === "kenya") {
+                    academicPeriod.textContent = "Semester 2 • 2026";
+                    deadlineLabel.textContent = "Next deadline";
+                    gradingBadge.textContent = "4.0 GPA scale";
+                    systemHint.textContent = "Kenyan mode uses semester wording, 24-hour time, GPA targets, and local academic planning conventions.";
+                } else {
+                    academicPeriod.textContent = "Fall Semester • 2026";
+                    deadlineLabel.textContent = "Upcoming deadline";
+                    gradingBadge.textContent = "4.0 GPA scale";
+                    systemHint.textContent = "International mode uses flexible semester, GPA, and deadline wording.";
+                }
+            }
+
+            function applySettings(settings) {
+                if (settings.content && settings.content.length === editable.length) {
+                    editable.forEach(function (element, index) {
+                        element.innerHTML = settings.content[index];
+                    });
+                }
+                if (settings.gpa !== undefined) gpaInput.value = settings.gpa;
+                if (settings.hours !== undefined) hoursInput.value = settings.hours;
+                if (settings.system) universitySystem.value = settings.system;
+                if (settings.textSize) textSizeInput.value = settings.textSize;
+                if (settings.accent) accentInput.value = settings.accent;
+                gpaValue.textContent = gpaInput.value;
+                hoursValue.textContent = hoursInput.value;
+                focusTimeValue.textContent = hoursInput.value.split("/")[0] + "h";
+                document.documentElement.style.setProperty("--primary", accentInput.value);
+                document.documentElement.style.setProperty("--primary-dark", accentInput.value);
+                document.documentElement.style.setProperty("--text-size", textSizeInput.value);
+                document.body.style.fontSize = textSizeInput.value;
+                applyUniversitySystem();
+            }
+
+            editable.forEach(function (element) {
+                element.contentEditable = "true";
+                element.addEventListener("input", save);
+            });
+            [gpaInput, hoursInput, textSizeInput, accentInput, universitySystem].forEach(function (input) {
+                input.addEventListener("input", function () {
+                    applySettings({});
+                    save();
+                });
+                input.addEventListener("change", function () {
+                    applySettings({});
+                    save();
+                });
+            });
+
+            try {
+                const saved = JSON.parse(localStorage.getItem(storageKey));
+                if (saved) applySettings(saved);
+            } catch (error) {
+                status.textContent = "Could not load saved changes";
+            }
+
+            document.getElementById("reset-plan").addEventListener("click", function () {
+                localStorage.removeItem(storageKey);
+                window.location.reload();
+            });
+        }());
+    </script>
+</body>
+</html>
